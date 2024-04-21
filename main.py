@@ -34,6 +34,8 @@ margines = 0
 # Czcionka
 czcionka = pygame.font.SysFont("Arial", 30)
 
+kolory = {"bialy": (255,255,255), "czarny":(0,0,0)}
+
 # Kolory
 bialy = (255, 255, 255)
 czarny = (0, 0, 0)
