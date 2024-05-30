@@ -3,7 +3,6 @@ import pygame,random,time
 
 pygame.init()
 
-
 TIME_LIMIT = 2
 WIDTH = 800
 HEIGHT = 400
@@ -66,18 +65,29 @@ buttons = [Button(BLACK,350,150,BUTTON_WIDTH,BUTTON_HEIGHT)]
 
 score = 0
 combo = 0
+hits = 0
+misses = 0
+
 
 
 while True:
-
+    if(misses == 0):
+        acc = 100
+    else:
+        acc = (hits/(hits+misses))*100
+        acc = format(acc,'.2f')
     score_text = font.render(str(score),True,BLACK)
     combo_text = font.render("x"+str(combo),True,BLACK)
+    hits_text = font.render("hits: "+ str(hits),True,BLACK)
+    misses_text = font.render("misses: "+ str(misses),True,BLACK)
+    acc_text = font.render("acc: "+ str(acc) +"%",True,BLACK)
 
     current_time = time.time()
     for button in buttons:
         if current_time - button.last_shown > TIME_LIMIT:
         # Button timed out, change position
             score -= 1
+            misses += 1
             button.change_position()
             button.change_color()
             button.last_shown = current_time  # Update last shown time
@@ -96,6 +106,7 @@ while True:
                 button.change_position()
                 score += 1*combo
                 combo += 1
+                hits += 1
                 button.last_shown = current_time
                 if score % 10 == 0:
                     button.change_size()
@@ -103,12 +114,17 @@ while True:
             if not clicked_buttons:
                 score -= 1
                 combo = 0
+                misses += 1
 
     screen.fill(WHITE)
-    screen.blit(score_text,(0,0))
-    screen.blit(combo_text,(0,60))
-
+    
     for button in buttons:
         button.draw_button(screen)
     
+    screen.blit(score_text,(0,0))
+    screen.blit(combo_text,(0,60))
+    screen.blit(hits_text,(0,120))
+    screen.blit(misses_text,(0,180))
+    screen.blit(acc_text,(0,240))
+
     pygame.display.update()
