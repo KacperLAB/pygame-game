@@ -67,6 +67,7 @@ score = 0
 combo = 0
 hits = 0
 misses = 0
+highest_score = 0
 
 
 
@@ -76,11 +77,15 @@ while True:
     else:
         acc = (hits/(hits+misses))*100
         acc = format(acc,'.2f')
-    score_text = font.render(str(score),True,BLACK)
+    
+    score_text = font.render("score: " + str(score),True,BLACK)
     combo_text = font.render("x"+str(combo),True,BLACK)
     hits_text = font.render("hits: "+ str(hits),True,BLACK)
     misses_text = font.render("misses: "+ str(misses),True,BLACK)
     acc_text = font.render("acc: "+ str(acc) +"%",True,BLACK)
+    if(score >= highest_score):
+        highest_score = score
+    highest_score_text = font.render("highest score: " + str(highest_score),True,BLACK)
 
     current_time = time.time()
     for button in buttons:
@@ -92,13 +97,17 @@ while True:
             button.change_color()
             button.last_shown = current_time  # Update last shown time
 
-    
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
 
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            mouse_position = event.pos
+        if event.type == pygame.MOUSEBUTTONDOWN or (event.type == pygame.KEYDOWN and event.key == pygame.K_w):
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_position = event.pos
+            elif event.type == pygame.KEYDOWN and event.key == pygame.K_w:
+                mouse_position = pygame.mouse.get_pos()
+    
             clicked_buttons = check_clicks(buttons, mouse_position)
             for button in clicked_buttons:
                 pygame.mixer.Sound.play(button_sound)
@@ -126,5 +135,6 @@ while True:
     screen.blit(hits_text,(0,120))
     screen.blit(misses_text,(0,180))
     screen.blit(acc_text,(0,240))
+    screen.blit(highest_score_text,(0,300))
 
     pygame.display.update()
