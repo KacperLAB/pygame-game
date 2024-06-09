@@ -3,6 +3,8 @@ import pygame,random,time
 
 pygame.init()
 
+clock = pygame.time.Clock()
+
 TIME_LIMIT = 2
 WIDTH = 800
 HEIGHT = 400
@@ -66,6 +68,7 @@ def paused():
                 return None
         screen.blit(paused_text,(600,0))
         pygame.display.update()
+        clock.tick(60)
 
 #button1 = Button(BLACK,350,150,BUTTON_WIDTH,BUTTON_HEIGHT)
 font = pygame.font.SysFont('Arial',60)
@@ -150,3 +153,4 @@ while True:
     screen.blit(highest_score_text,(0,300))
 
     pygame.display.update()
+    clock.tick(60)
