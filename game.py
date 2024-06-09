@@ -58,6 +58,15 @@ def check_clicks(buttons, mouse_position):
             clicked_buttons.append(button)  # Add clicked button to list
     return clicked_buttons  # Return list of clicked buttons
 
+def paused():
+    paused_text = font.render("PAUSED",True,BLACK)
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                return None
+        screen.blit(paused_text,(600,0))
+        pygame.display.update()
+
 #button1 = Button(BLACK,350,150,BUTTON_WIDTH,BUTTON_HEIGHT)
 font = pygame.font.SysFont('Arial',60)
 
@@ -101,6 +110,9 @@ while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
+
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+            paused()
 
         if event.type == pygame.MOUSEBUTTONDOWN or (event.type == pygame.KEYDOWN and event.key == pygame.K_w):
             if event.type == pygame.MOUSEBUTTONDOWN:
